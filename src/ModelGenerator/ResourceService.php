@@ -34,11 +34,11 @@ class ResourceService
         if($info instanceof ApiResource){
             $itemOperations = $info->itemOperations ?? [];
             $collectionOperations = $info->collectionOperations ?? [];
-            $operations = array_merge($itemOperations,$collectionOperations);
-            foreach ($operations as $operationName => $singleOperation){
-                $operation = new Operation();
-                $normalizationContext = $singleOperation["normalization_context"] ?? ["groups"=> []];
-                $denormalizationContext = $singleOperation["denormalization_context"] ?? ["groups"=> []] ;
+
+            foreach ($itemOperations as $operationName => $itemOperation){
+                $operation = new ItemOperation();
+                $normalizationContext = $itemOperation["normalization_context"] ?? ["groups"=> []];
+                $denormalizationContext = $itemOperation["denormalization_context"] ?? ["groups"=> []] ;
 
                 $normalizationGroups = $normalizationContext["groups"];
                 $denormalizationGroups = $denormalizationContext["groups"];
@@ -46,7 +46,23 @@ class ResourceService
                 $model = $this->generateModel($normalizationGroups, $denormalizationGroups, $resource);
                 $operation->setModel($model);
                 $operation->setName($operationName);
-                $operation->setMethod($singleOperation["method"]);
+                $operation->setMethod($itemOperation["method"]);
+                $outputResource->addOperation($operation);
+            }
+
+
+            foreach ($collectionOperations as $operationName => $collectionOperation){
+                $operation = new CollectionOperation();
+                $normalizationContext = $collectionOperation["normalization_context"] ?? ["groups"=> []];
+                $denormalizationContext = $collectionOperation["denormalization_context"] ?? ["groups"=> []] ;
+
+                $normalizationGroups = $normalizationContext["groups"];
+                $denormalizationGroups = $denormalizationContext["groups"];
+
+                $model = $this->generateModel($normalizationGroups, $denormalizationGroups, $resource);
+                $operation->setModel($model);
+                $operation->setName($operationName);
+                $operation->setMethod($collectionOperation["method"]);
                 $outputResource->addOperation($operation);
             }
         }

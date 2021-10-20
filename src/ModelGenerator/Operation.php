@@ -7,9 +7,9 @@ namespace ModelGenerator\Bundle\ModelGeneratorBundle\ModelGenerator;
 class Operation implements \JsonSerializable
 {
 
-    private string $name;
-    private string $method;
-    private Model $model;
+    protected string $name;
+    protected string $method;
+    protected Model $model;
 
     /**
      * @return Model
