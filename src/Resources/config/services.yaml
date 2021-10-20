@@ -62,7 +62,3 @@ services:
     ModelGenerator\Bundle\ModelGeneratorBundle\Resources\Listing\ResourceRepositoryProvider:
         arguments:
             - !tagged_iterator app.listing_repository_tag
-
-    ModelGenerator\Bundle\ModelGeneratorBundle\Provider\ResourceRepositoryProvider:
-        arguments:
-            - !tagged_iterator app.resource_repository_tag
