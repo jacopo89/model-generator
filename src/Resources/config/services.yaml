@@ -40,7 +40,7 @@ services:
 
     _instanceof:
         # services whose classes are instances of CustomInterface will be tagged automatically
-        ModelGenerator\Bundle\ModelGeneratorBundle\Provider\ResourceInterface:
+        ModelGenerator\Bundle\ModelGeneratorBundle\ModelGenerator\ResourceInterface:
             tags: [ 'app.resource_tag' ]
         ModelGenerator\Bundle\ModelGeneratorBundle\Resources\Listing\Repository\ListingRepositoryInterface:
             tags: [ 'app.listing_repository_tag' ]
