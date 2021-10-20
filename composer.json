@@ -1,5 +1,6 @@
 {
     "type": "symfony-bundle",
+    "name": "jacopo89/model-generator-bundle",
     "license": "proprietary",
     "minimum-stability": "stable",
     "prefer-stable": true,
