@@ -55,7 +55,7 @@ services:
      #   tags:
       #      - {name: doctrine.orm.entity_listener }
 
-    ModelGenerator\Bundle\ModelGeneratorBundle\Provider\ResourceProvider:
+    ModelGenerator\Bundle\ModelGeneratorBundle\ModelGenerator\ResourceProvider:
         arguments:
             - !tagged_iterator app.resource_tag
 
