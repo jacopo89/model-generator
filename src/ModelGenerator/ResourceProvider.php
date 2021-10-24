@@ -10,7 +10,7 @@ class ResourceProvider
     /**
      * @var ResourceInterface[]
      */
-    private array $resources;
+    private array $resources = [];
 
     /**
      * @param iterable $resourcesEntities
