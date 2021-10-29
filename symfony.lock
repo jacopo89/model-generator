@@ -238,6 +238,9 @@
     "symfony/password-hasher": {
         "version": "v5.3.8"
     },
+    "symfony/polyfill-ctype": {
+        "version": "v1.23.0"
+    },
     "symfony/polyfill-intl-grapheme": {
         "version": "v1.23.1"
     },
@@ -246,6 +249,9 @@
     },
     "symfony/polyfill-mbstring": {
         "version": "v1.23.1"
+    },
+    "symfony/polyfill-php72": {
+        "version": "v1.23.0"
     },
     "symfony/polyfill-php73": {
         "version": "v1.23.0"
