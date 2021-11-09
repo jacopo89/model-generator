@@ -31,11 +31,8 @@ class Model implements \JsonSerializable
     {
         $array = [];
         foreach ($this->propertyModels as $propertyModel){
-            $property = [];
-            $property[$propertyModel->getId()] = $propertyModel;
-            $array[] = $property;
+            $array[$propertyModel->getId()] = $propertyModel;
         }
-
         return $array;
     }
 }
