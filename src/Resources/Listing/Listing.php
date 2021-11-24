@@ -16,12 +16,12 @@ class Listing
         $this->provider = $provider;
     }
 
-    public function getListing(string $resourceName, string $searchTerm = null): ?ResourceListingCollection
+    public function getListing(string $resourceName, array $searchTerms = []): ?ResourceListingCollection
     {
         try {
             $repository = $this->provider->get($resourceName);
 
-            return $repository->getListing($searchTerm);
+            return $repository->getListing($searchTerms);
         } catch (UndefinedListingRepositoryException $e) {
 
         }

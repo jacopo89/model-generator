@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ModelGenerator\Bundle\ModelGeneratorBundle\Resources\Listing;
 
-use ModelGenerator\Bundle\ModelGeneratorBundle\Provider\ResourceProvider;
+use ModelGenerator\Bundle\ModelGeneratorBundle\ModelGenerator\ResourceProvider;
 use ModelGenerator\Bundle\ModelGeneratorBundle\Resources\Listing\Exception\ListingRepositoryAlreadyDefinedException;
 use ModelGenerator\Bundle\ModelGeneratorBundle\Resources\Listing\Exception\UndefinedListingRepositoryException;
 use ModelGenerator\Bundle\ModelGeneratorBundle\Resources\Listing\Repository\Factory\GenericListingRepositoryFactory;

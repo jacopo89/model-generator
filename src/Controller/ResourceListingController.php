@@ -29,8 +29,8 @@ class ResourceListingController
      */
     public function listings(string $resource, Listing $listing, PropertiesSerializer $serializer, Request $request): Response
     {
-        $searchTerm = $request->query->get('search');
-        $listingCollection = $listing->getListing($resource, $searchTerm);
+        $searchTerms = json_decode($request->getContent(), true);
+        $listingCollection = $listing->getListing($resource, $searchTerms);
 
         if($listingCollection instanceof ResourceListingCollection) {
             return new JsonResponse(
@@ -53,12 +53,11 @@ class ResourceListingController
     public function listingsBlock(Listing $listing, PropertiesSerializer $serializer, Request $request): Response
     {
         $content = json_decode($request->getContent(), true);
-        $resourceNames = $content["resources"];
-        $searchTerm = $request->query->get('search');
+        $resources = $content["resources"];
         $jsonResponse = [];
-        foreach($resourceNames as $resourceName){
+        foreach($resources as $resourceName => $resourceSearchTerms){
             if(is_string($resourceName)){
-                $listingCollection = $listing->getListing($resourceName, $searchTerm);
+                $listingCollection = $listing->getListing($resourceName, $resourceSearchTerms);
                 if($listingCollection instanceof ResourceListingCollection) {
                     $jsonResponse[$resourceName] = $listingCollection->getResourcesListing();
                     continue;

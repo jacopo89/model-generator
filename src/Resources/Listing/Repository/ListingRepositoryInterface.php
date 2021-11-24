@@ -9,5 +9,5 @@ use ModelGenerator\Bundle\ModelGeneratorBundle\Resources\Listing\Model\ResourceL
 interface ListingRepositoryInterface
 {
     public function getResourceName(): string;
-    public function getListing(string $searchTerm = null): ResourceListingCollection;
+    public function getListing(array $searchterms = []): ResourceListingCollection;
 }

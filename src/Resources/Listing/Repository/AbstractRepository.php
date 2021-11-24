@@ -17,9 +17,21 @@ abstract class AbstractRepository extends ServiceEntityRepository
 
     abstract protected function getLabelField(): string;
 
-    public function getListing(string $searchTerm = null): ResourceListingCollection
+    abstract protected function getIdGetMethodValue($object);
+
+    abstract protected function getLabelFieldGetMethodValue($object);
+
+    public function getListing(array $searchTerms = []): ResourceListingCollection
     {
-        $qb = $this->createQueryBuilder('p')
+        $results = $this->findBy($searchTerms);
+        $listings = [];
+        foreach ($results as $result){
+            $listing = new ResourceListing((string) $this->getIdGetMethodValue($result), (string) $this->getLabelFieldGetMethodValue($result));
+            $listings[] = $listing;
+        }
+
+        return new ResourceListingCollection($listings);
+        /*$qb = $this->createQueryBuilder('p')
             ->select(sprintf('NEW %s(p.%s, p.%s)', ResourceListing::class, $this->getIdField(), $this->getLabelField()));
 
         if (!empty($searchTerm)) {
@@ -28,6 +40,6 @@ abstract class AbstractRepository extends ServiceEntityRepository
                 ->setParameter('searchTerm', '%' . $searchTerm . '%');
         }
 
-        return new ResourceListingCollection($qb->getQuery()->getResult());
+        return new ResourceListingCollection($qb->getQuery()->getResult());*/
     }
 }

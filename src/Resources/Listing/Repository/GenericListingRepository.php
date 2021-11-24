@@ -26,4 +26,18 @@ class GenericListingRepository extends AbstractRepository implements ListingRepo
     {
         return call_user_func([$this->class, 'getDefaultOptionText']);
     }
+
+    protected function getIdGetMethodValue($object)
+    {
+        $class = new \ReflectionClass($this->class);
+        $getter = $class->getMethod('get'.ucfirst($this->getIdField()));
+        return $getter->invoke($object);
+    }
+
+    protected function getLabelFieldGetMethodValue($object)
+    {
+        $class = new \ReflectionClass($this->class);
+        $getter = $class->getMethod('get'.ucfirst($this->getLabelField()));
+        return $getter->invoke($object);
+    }
 }
