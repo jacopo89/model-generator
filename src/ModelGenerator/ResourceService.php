@@ -147,6 +147,7 @@ class ResourceService
                 $propertyModel->setResourceName($resourceName);
             }break;
 
+            case "reference_multiple":
             case "reference":{
                 $propertyModel = new PropertyModel();
                 $resourceName = $this->getResourceStaticElements($annotation->targetClass)["resourceName"];
