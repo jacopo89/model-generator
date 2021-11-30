@@ -5,6 +5,10 @@ namespace ModelGenerator\Bundle\ModelGeneratorBundle\ModelGenerator;
 
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ModelGenerator\Bundle\ModelGeneratorBundle\ModelGenerator\ResourceProperty;
 use Doctrine\Common\Annotations\Reader;
 use ReflectionClass;
 use ReflectionProperty;
@@ -50,7 +54,6 @@ class ResourceService
                 $outputResource->addOperation($operation);
             }
 
-
             foreach ($collectionOperations as $operationName => $collectionOperation){
                 $operation = new CollectionOperation();
                 $normalizationContext = $collectionOperation["normalization_context"] ?? ["groups"=> []];
@@ -66,6 +69,9 @@ class ResourceService
                 $outputResource->addOperation($operation);
             }
         }
+
+        $filters = $this->getFilters($resourceClass);
+        $outputResource->setFilters($filters);
 
         $outputResource->setTitle($resource->getResourceTitle());
         $outputResource->setResourceName($resource->getResourceName());
@@ -213,4 +219,35 @@ class ResourceService
         return $propertyModel;
 
     }
+
+    private function getFilters(ReflectionClass $resourceClass): array
+    {
+        $resourceProperties=$resourceClass->getProperties();
+        $resourcePropertiesNames=array_map(function(ReflectionProperty $reflectionProperty){return $reflectionProperty->getName();},$resourceProperties);
+        $annotations = $this->annotationReader->getClassAnnotations($resourceClass);
+
+        $filters = [];
+        foreach ($annotations as $annotation){
+            if(! $annotation instanceof \ApiPlatform\Core\Annotation\ApiFilter) continue;
+
+            foreach ($annotation->properties as $propertyName){
+                $index = array_search($propertyName,$resourcePropertiesNames);
+                if($index!==false){
+                    $resourcePropertyAnnotation = $this->getResourcePropertyAnnotation($resourceProperties[$index]);
+                    $filter = new Filter();
+                    $type = $annotation->filterClass == OrderFilter::class ? "order" : $resourcePropertyAnnotation->type;
+                    $filter->setType($type);
+                    $filter->setName($propertyName);
+                    $filters[]=$filter;
+                }
+            }
+        }
+        return $filters;
+    }
+
+    private function getResourcePropertyAnnotation(ReflectionProperty $property){
+        return $this->annotationReader->getPropertyAnnotation($property, ResourceProperty::class);
+    }
+
 }
+

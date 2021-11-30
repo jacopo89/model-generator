@@ -8,6 +8,7 @@ class Resource implements \JsonSerializable
 {
     private string $title;
     private string $resourceName;
+    private array $filters;
 
     /**
      * @var Operation[]
@@ -68,13 +69,26 @@ class Resource implements \JsonSerializable
         $this->title = $title;
     }
 
+    public function setFilters(array $filters): void
+    {
+        $this->filters = $filters;
+    }
+
+    public function getFilters(): array
+    {
+        return $this->filters;
+    }
+
     public function jsonSerialize()
     {
         return [
             "operations" => $this->operations,
             "resourceName" => $this->resourceName,
-            "title" => $this->title
+            "title" => $this->title,
+            "filters" => $this->filters
         ];
     }
+
+
 
 }
