@@ -9,7 +9,7 @@ class Operation implements \JsonSerializable
 
     protected string $name;
     protected string $method;
-    protected ?string $path;
+    protected ?string $path = null;
     protected Model $model;
 
     /**
