@@ -9,6 +9,7 @@ class Operation implements \JsonSerializable
 
     protected string $name;
     protected string $method;
+    protected ?string $path;
     protected Model $model;
 
     /**
@@ -59,12 +60,29 @@ class Operation implements \JsonSerializable
         return $this->method;
     }
 
+    /**
+     * @return string|null
+     */
+    public function getPath(): ?string
+    {
+        return $this->path;
+    }
+
+    /**
+     * @param string|null $path
+     */
+    public function setPath(?string $path): void
+    {
+        $this->path = $path;
+    }
+
     public function jsonSerialize()
     {
         return [
             "name" => $this->name,
             "method" => $this->method,
             "model" => $this->model,
+            "path" => $this->path
         ];
     }
 }

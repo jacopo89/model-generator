@@ -47,6 +47,7 @@ class ResourceService
 
                 $model = $this->generateModel($normalizationGroups, $denormalizationGroups, $resource);
                 $operation->setModel($model);
+                if(isset($itemOperation["path"])) $operation->setPath($itemOperation["path"]);
                 $operation->setName($operationName);
                 $operation->setMethod($itemOperation["method"]);
                 $outputResource->addOperation($operation);
@@ -62,6 +63,7 @@ class ResourceService
 
                 $model = $this->generateModel($normalizationGroups, $denormalizationGroups, $resource);
                 $operation->setModel($model);
+                if(isset($collectionOperation["path"])) $operation->setPath($collectionOperation["path"]);
                 $operation->setName($operationName);
                 $operation->setMethod($collectionOperation["method"]);
                 $outputResource->addOperation($operation);
@@ -77,6 +79,7 @@ class ResourceService
 
                 $model = $this->generateModel($normalizationGroups, $denormalizationGroups, $resource);
                 $operation->setModel($model);
+                if(isset($subresourceOperation["path"])) $operation->setPath($subresourceOperation["path"]);
                 $operation->setName($operationName);
                 $operation->setMethod($subresourceOperation["method"]);
                 $operation->setOperationType($subresourceOperation["type"]);
