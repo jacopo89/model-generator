@@ -5,10 +5,7 @@ namespace ModelGenerator\Bundle\ModelGeneratorBundle\ModelGenerator;
 
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use ModelGenerator\Bundle\ModelGeneratorBundle\ModelGenerator\ResourceProperty;
 use Doctrine\Common\Annotations\Reader;
 use ReflectionClass;
 use ReflectionProperty;
@@ -38,6 +35,7 @@ class ResourceService
         if($info instanceof ApiResource){
             $itemOperations = $info->itemOperations ?? [];
             $collectionOperations = $info->collectionOperations ?? [];
+            $subresourceOperations = $info->subresourceOperations ?? [];
 
             foreach ($itemOperations as $operationName => $itemOperation){
                 $operation = new ItemOperation();
@@ -66,6 +64,22 @@ class ResourceService
                 $operation->setModel($model);
                 $operation->setName($operationName);
                 $operation->setMethod($collectionOperation["method"]);
+                $outputResource->addOperation($operation);
+            }
+
+            foreach ($subresourceOperations as $operationName => $subresourceOperation){
+                $operation = new SubResourceOperation();
+                $normalizationContext = $subresourceOperation["normalization_context"] ?? ["groups"=> []];
+                $denormalizationContext = $subresourceOperation["denormalization_context"] ?? ["groups"=> []] ;
+
+                $normalizationGroups = $normalizationContext["groups"];
+                $denormalizationGroups = $denormalizationContext["groups"];
+
+                $model = $this->generateModel($normalizationGroups, $denormalizationGroups, $resource);
+                $operation->setModel($model);
+                $operation->setName($operationName);
+                $operation->setMethod($subresourceOperation["method"]);
+                $operation->setOperationType($subresourceOperation["type"]);
                 $outputResource->addOperation($operation);
             }
         }
