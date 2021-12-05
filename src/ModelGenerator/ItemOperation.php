@@ -22,7 +22,8 @@ class ItemOperation extends Operation
             "name" => $this->name,
             "method" => $this->method,
             "model" => $this->model,
-            "operationType" => $this->operationType
+            "operationType" => $this->operationType,
+            "path" => $this->path
         ];
     }
 }
