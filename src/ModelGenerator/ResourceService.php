@@ -77,8 +77,8 @@ class ResourceService
                 $model = $this->generateModel($normalizationGroups, $denormalizationGroups, $resource);
                 $path = (isset($subresourceOperation["path"])) ? $subresourceOperation["path"]: null;
                 $responseType = (isset($subresourceOperation["responseType"])) ? $subresourceOperation["responseType"]: null;
-                $resource = (isset($subresourceOperation["resource"])) ? $subresourceOperation["resource"]: null;
-                $operation = new SubResourceOperation($operationName,$subresourceOperation["method"], $model, $path,$responseType,$resource);
+                $resourceOperation = (isset($subresourceOperation["resource"])) ? $subresourceOperation["resource"]: null;
+                $operation = new SubResourceOperation($operationName,$subresourceOperation["method"], $model, $path,$responseType,$resourceOperation);
                 $outputResource->addOperation($operation);
             }
         }
