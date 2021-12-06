@@ -6,7 +6,13 @@ namespace ModelGenerator\Bundle\ModelGeneratorBundle\ModelGenerator;
 
 class SubResourceOperation extends Operation
 {
-    private string $operationType;
+    const OPERATION_TYPE = "item";
+
+    public function __construct($name, $method, $model, $path, $responseType)
+    {
+        parent::__construct($name, $method, $model, $path, $responseType);
+        $this->operationType = self::OPERATION_TYPE;
+    }
 
     /**
      * @return string
@@ -22,16 +28,5 @@ class SubResourceOperation extends Operation
     public function setOperationType(string $operationType): void
     {
         $this->operationType = $operationType;
-    }
-
-    public function jsonSerialize()
-    {
-        return [
-            "name" => $this->name,
-            "method" => $this->method,
-            "model" => $this->model,
-            "operationType" => $this->operationType,
-            "path" => $this->path
-        ];
     }
 }

@@ -6,7 +6,14 @@ namespace ModelGenerator\Bundle\ModelGeneratorBundle\ModelGenerator;
 
 class ItemOperation extends Operation
 {
-    private string $operationType = "item";
+    const OPERATION_TYPE = "item";
+
+    public function __construct($name, $method, $model, $path, $responseType)
+    {
+        parent::__construct($name, $method, $model, $path, $responseType);
+        $this->operationType= self::OPERATION_TYPE;
+        $this->responseType = self::OPERATION_TYPE;
+    }
 
     /**
      * @return string
@@ -14,16 +21,5 @@ class ItemOperation extends Operation
     public function getOperationType(): string
     {
         return $this->operationType;
-    }
-
-    public function jsonSerialize()
-    {
-        return [
-            "name" => $this->name,
-            "method" => $this->method,
-            "model" => $this->model,
-            "operationType" => $this->operationType,
-            "path" => $this->path
-        ];
     }
 }

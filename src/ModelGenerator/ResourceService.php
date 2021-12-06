@@ -38,7 +38,7 @@ class ResourceService
             $subresourceOperations = $info->subresourceOperations ?? [];
 
             foreach ($itemOperations as $operationName => $itemOperation){
-                $operation = new ItemOperation();
+
                 $normalizationContext = $itemOperation["normalization_context"] ?? ["groups"=> []];
                 $denormalizationContext = $itemOperation["denormalization_context"] ?? ["groups"=> []] ;
 
@@ -46,15 +46,13 @@ class ResourceService
                 $denormalizationGroups = $denormalizationContext["groups"];
 
                 $model = $this->generateModel($normalizationGroups, $denormalizationGroups, $resource);
-                $operation->setModel($model);
-                if(isset($itemOperation["path"])) $operation->setPath($itemOperation["path"]);
-                $operation->setName($operationName);
-                $operation->setMethod($itemOperation["method"]);
+                $path = (isset($itemOperation["path"])) ? $itemOperation["path"]: null;
+                $responseType = (isset($itemOperation["responseType"])) ? $itemOperation["responseType"]: null;
+                $operation = new ItemOperation($operationName,$itemOperation["method"], $model, $path,$responseType);
                 $outputResource->addOperation($operation);
             }
 
             foreach ($collectionOperations as $operationName => $collectionOperation){
-                $operation = new CollectionOperation();
                 $normalizationContext = $collectionOperation["normalization_context"] ?? ["groups"=> []];
                 $denormalizationContext = $collectionOperation["denormalization_context"] ?? ["groups"=> []] ;
 
@@ -62,15 +60,14 @@ class ResourceService
                 $denormalizationGroups = $denormalizationContext["groups"];
 
                 $model = $this->generateModel($normalizationGroups, $denormalizationGroups, $resource);
-                $operation->setModel($model);
-                if(isset($collectionOperation["path"])) $operation->setPath($collectionOperation["path"]);
-                $operation->setName($operationName);
-                $operation->setMethod($collectionOperation["method"]);
+
+                $path = (isset($collectionOperation["path"])) ? $collectionOperation["path"]: null;
+                $responseType = (isset($collectionOperation["responseType"])) ? $collectionOperation["responseType"]: null;
+                $operation = new CollectionOperation($operationName,$collectionOperation["method"], $model, $path,$responseType);
                 $outputResource->addOperation($operation);
             }
 
             foreach ($subresourceOperations as $operationName => $subresourceOperation){
-                $operation = new SubResourceOperation();
                 $normalizationContext = $subresourceOperation["normalization_context"] ?? ["groups"=> []];
                 $denormalizationContext = $subresourceOperation["denormalization_context"] ?? ["groups"=> []] ;
 
@@ -78,11 +75,9 @@ class ResourceService
                 $denormalizationGroups = $denormalizationContext["groups"];
 
                 $model = $this->generateModel($normalizationGroups, $denormalizationGroups, $resource);
-                $operation->setModel($model);
-                if(isset($subresourceOperation["path"])) $operation->setPath($subresourceOperation["path"]);
-                $operation->setName($operationName);
-                $operation->setMethod($subresourceOperation["method"]);
-                $operation->setOperationType($subresourceOperation["type"]);
+                $path = (isset($subresourceOperation["path"])) ? $subresourceOperation["path"]: null;
+                $responseType = (isset($subresourceOperation["responseType"])) ? $subresourceOperation["responseType"]: null;
+                $operation = new SubResourceOperation($operationName,$subresourceOperation["method"], $model, $path,$responseType);
                 $outputResource->addOperation($operation);
             }
         }

@@ -11,6 +11,17 @@ class Operation implements \JsonSerializable
     protected string $method;
     protected ?string $path = null;
     protected Model $model;
+    protected string $operationType;
+    protected string $responseType;
+
+    public function __construct($name, $method, $model, $path, $responseType)
+    {
+        $this->name=$name;
+        $this->method=$method;
+        $this->model = $model;
+        $this->responseType = $responseType;
+        $this->path= $path;
+    }
 
     /**
      * @return Model
@@ -82,7 +93,9 @@ class Operation implements \JsonSerializable
             "name" => $this->name,
             "method" => $this->method,
             "model" => $this->model,
-            "path" => $this->path
+            "path" => $this->path,
+            "operationType" => $this->operationType,
+            "responseType" => $this->responseType
         ];
     }
 }
