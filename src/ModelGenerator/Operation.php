@@ -12,7 +12,7 @@ class Operation implements \JsonSerializable
     protected ?string $path = null;
     protected Model $model;
     protected string $operationType;
-    protected string $responseType;
+    protected ?string $responseType;
 
     public function __construct($name, $method, $model, $path, $responseType)
     {
