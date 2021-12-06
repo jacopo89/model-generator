@@ -20,7 +20,7 @@ class Operation implements \JsonSerializable
         $this->method=$method;
         $this->model = $model;
         $this->responseType = $responseType;
-        $this->path= $path;
+        $this->path= self::manipulatePath($path);
     }
 
     /**
@@ -97,5 +97,12 @@ class Operation implements \JsonSerializable
             "operationType" => $this->operationType,
             "responseType" => $this->responseType
         ];
+    }
+
+    private static function manipulatePath(?string $path){
+        if(is_null($path)) return null;
+
+        return str_replace("{", "\${", $path);
+
     }
 }
