@@ -13,14 +13,16 @@ class Operation implements \JsonSerializable
     protected Model $model;
     protected string $operationType;
     protected ?string $responseType;
+    protected ?string $resource;
 
-    public function __construct($name, $method, $model, $path, $responseType)
+    public function __construct($name, $method, $model, $path, $responseType, $resource=null)
     {
         $this->name=$name;
         $this->method=$method;
         $this->model = $model;
         $this->responseType = $responseType;
         $this->path= self::manipulatePath($path);
+        $this->resource = $resource;
     }
 
     /**
@@ -95,7 +97,8 @@ class Operation implements \JsonSerializable
             "model" => $this->model,
             "path" => $this->path,
             "operationType" => $this->operationType,
-            "responseType" => $this->responseType
+            "responseType" => $this->responseType,
+            "resource"=>$this->resource
         ];
     }
 
